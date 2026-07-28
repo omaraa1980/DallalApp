@@ -1,0 +1,7 @@
+- name: Build and Release APK
+  # You may pin to the exact commit or the version.
+  # uses: sangatdesai/release-apk@4da4e6fe9db304b9c88dd0d3118496f89fda1f5a
+  uses: sangatdesai/release-apk@V1.0
+  with:
+    # Github secret token to allow automated publishing of APK to release.
+    GITHUB_TOKEN: # optional
