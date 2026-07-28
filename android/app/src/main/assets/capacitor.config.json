@@ -1,0 +1,9 @@
+{
+	"appId": "com.dallamap.app",
+	"appName": "DallaMap",
+	"webDir": "www",
+	"server": {
+		"url": "https://dallalmap.infinityfree.me/index.php",
+		"cleartext": true
+	}
+}
