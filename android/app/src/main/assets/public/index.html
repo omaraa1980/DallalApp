@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>دلال Map - تهيئة التطبيق</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'sans-serif'],
+          },
+          colors: {
+            theme: {
+              first: '#feffdf',
+              second: '#ffe79a',
+              third: '#ffa952',
+              fourth: '#ef5a5a',
+              emerald: '#10B981',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    body {
+      background-color: #feffdf;
+    }
+    .glassmorphism {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+    [v-cloak] { display: none; }
+  </style>
+</head>
+<body class="h-screen flex items-center justify-center p-4 overflow-hidden font-sans">
+
+  <!-- Loader Overlay (Shown by default) -->
+  <div id="loader-view" class="text-center transition-all duration-300">
+    <div class="w-16 h-16 border-4 border-emerald-500/10 border-l-emerald-500 rounded-full animate-spin mx-auto mb-4"></div>
+    <h1 class="text-emerald-600 font-bold text-lg">جاري تحميل دلال Map...</h1>
+  </div>
+
+  <!-- Onboarding Form (Hidden by default) -->
+  <div id="onboarding-view" class="hidden w-full max-w-md glassmorphism p-6 rounded-3xl shadow-xl space-y-6 max-h-[90vh] overflow-y-auto transition-all duration-300 transform scale-95 opacity-0">
+    <div class="text-center">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-500 text-white shadow-lg mb-4">
+        <i class="fa-solid fa-map-location-dot text-3xl"></i>
+      </div>
+      <h2 class="text-2xl font-extrabold text-slate-800">مرحباً بك في دلال Map</h2>
+      <p class="text-xs text-slate-500 mt-2 font-semibold">الرجاء إدخال معلوماتك للبدء في استخدام التطبيق لأول مرة</p>
+    </div>
+
+    <!-- Error Alert -->
+    <div id="error-alert" class="hidden bg-red-50 border border-red-200 text-red-700 text-xs px-4 py-3 rounded-xl flex items-center space-x-2 space-x-reverse">
+      <i class="fa-solid fa-circle-exclamation text-base"></i>
+      <span id="error-message" class="font-semibold"></span>
+    </div>
+
+    <form id="onboarding-form" class="space-y-4">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">الاسم الكامل <span class="text-red-500">*</span></label>
+        <div class="relative">
+          <input type="text" id="name" required placeholder="مثال: علي احمد" 
+                 class="w-full bg-white border border-slate-200 rounded-xl pr-10 pl-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors shadow-sm">
+          <i class="fa-solid fa-user absolute right-3.5 top-3.5 text-slate-400 text-sm"></i>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">البريد الإلكتروني <span class="text-red-500">*</span></label>
+        <div class="relative">
+          <input type="email" id="email" required placeholder="name@example.com" 
+                 class="w-full bg-white border border-slate-200 rounded-xl pr-10 pl-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors shadow-sm text-left">
+          <i class="fa-solid fa-envelope absolute right-3.5 top-3.5 text-slate-400 text-sm"></i>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">رقم الهاتف (واتساب) <span class="text-red-500">*</span></label>
+        <div class="relative">
+          <input type="tel" id="phone" required placeholder="07XXXXXXXX" 
+                 class="w-full bg-white border border-slate-200 rounded-xl pr-10 pl-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors shadow-sm text-left">
+          <i class="fa-solid fa-phone absolute right-3.5 top-3.5 text-slate-400 text-sm"></i>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">نوع الحساب</label>
+        <div class="grid grid-cols-3 gap-2">
+          <label class="flex flex-col items-center justify-center p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-emerald-500 transition-all bg-white relative">
+            <input type="radio" name="user_type" value="individual" checked class="sr-only peer">
+            <div class="w-full h-full flex flex-col items-center justify-center peer-checked:text-emerald-600 text-slate-500">
+              <i class="fa-solid fa-user-tie text-lg mb-1"></i>
+              <span class="text-[10px] font-bold">شخصي</span>
+            </div>
+          </label>
+          <label class="flex flex-col items-center justify-center p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-emerald-500 transition-all bg-white relative">
+            <input type="radio" name="user_type" value="broker" class="sr-only peer">
+            <div class="w-full h-full flex flex-col items-center justify-center peer-checked:text-emerald-600 text-slate-500">
+              <i class="fa-solid fa-store text-lg mb-1"></i>
+              <span class="text-[10px] font-bold">دلال</span>
+            </div>
+          </label>
+          <label class="flex flex-col items-center justify-center p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-emerald-500 transition-all bg-white relative">
+            <input type="radio" name="user_type" value="company" class="sr-only peer">
+            <div class="w-full h-full flex flex-col items-center justify-center peer-checked:text-emerald-600 text-slate-500">
+              <i class="fa-solid fa-building text-lg mb-1"></i>
+              <span class="text-[10px] font-bold">شركة</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" id="submit-btn" 
+              class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center space-x-2 space-x-reverse transition-all shadow-lg shadow-emerald-500/20 mt-2">
+        <span>تسجيل ودخول</span>
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </form>
+  </div>
+
+  <script>
+    const API_URL = "https://dallalmap.infinityfree.me/api_register.php";
+    const REDIRECT_URL = "https://dallalmap.infinityfree.me/index.php";
+
+    // Style peer helper for radio selections
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        document.querySelectorAll('input[type="radio"]').forEach(r => {
+          r.parentElement.classList.remove('border-emerald-500', 'bg-emerald-50/50');
+          r.parentElement.classList.add('border-slate-200', 'bg-white');
+        });
+        if (e.target.checked) {
+          e.target.parentElement.classList.add('border-emerald-500', 'bg-emerald-50/50');
+        }
+      });
+    });
+    // Trigger style update on first load
+    document.querySelector('input[type="radio"]:checked').dispatchEvent(new Event('change'));
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const loaderView = document.getElementById("loader-view");
+      const onboardingView = document.getElementById("onboarding-view");
+      
+      const localUser = localStorage.getItem("dallamap_user");
+      
+      if (localUser) {
+        // User already onboarded, forward to main web portal
+        window.location.href = REDIRECT_URL;
+      } else {
+        // Show onboarding form
+        loaderView.classList.add("hidden");
+        onboardingView.classList.remove("hidden");
+        setTimeout(() => {
+          onboardingView.classList.remove("scale-95", "opacity-0");
+        }, 100);
+      }
+    });
+
+    document.getElementById("onboarding-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const user_type = document.querySelector('input[name="user_type"]:checked').value;
+      
+      const errorAlert = document.getElementById("error-alert");
+      const errorMessage = document.getElementById("error-message");
+      const submitBtn = document.getElementById("submit-btn");
+      
+      errorAlert.classList.add("hidden");
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>جاري التسجيل...</span><i class="fa-solid fa-spinner animate-spin"></i>`;
+
+      fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          phone_number: phone,
+          user_type: user_type
+        })
+      })
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(err => { throw new Error(err.message || "فشل الاتصال بالخادم."); });
+        }
+        return res.json();
+      })
+      .then(res => {
+        if (res.success) {
+          // Save locally
+          localStorage.setItem("dallamap_user", JSON.stringify(res.data));
+          
+          // Show loader and redirect
+          document.getElementById("onboarding-view").classList.add("scale-95", "opacity-0");
+          setTimeout(() => {
+            document.getElementById("onboarding-view").classList.add("hidden");
+            document.getElementById("loader-view").classList.remove("hidden");
+            window.location.href = REDIRECT_URL;
+          }, 300);
+        } else {
+          throw new Error(res.message || "حدث خطأ غير متوقع.");
+        }
+      })
+      .catch(err => {
+        errorMessage.innerText = err.message;
+        errorAlert.classList.remove("hidden");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>تسجيل ودخول</span><i class="fa-solid fa-arrow-left"></i>`;
+      });
+    });
+  </script>
+</body>
+</html>
