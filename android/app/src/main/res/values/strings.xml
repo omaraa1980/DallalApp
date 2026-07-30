@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">DallaMap</string>
-    <string name="title_activity_main">DallaMap</string>
-    <string name="package_name">com.dallamap.app</string>
-    <string name="custom_url_scheme">com.dallamap.app</string>
+    <string name="app_name">DallalMap</string>
+    <string name="title_activity_main">DallalMap</string>
+    <string name="package_name">com.dallalmap.app</string>
+    <string name="custom_url_scheme">com.dallalmap.app</string>
 </resources>

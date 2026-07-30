@@ -1,6 +1,6 @@
 {
-	"appId": "com.dallamap.app",
-	"appName": "DallaMap",
+	"appId": "com.dallalmap.app",
+	"appName": "DallalMap",
 	"webDir": "www",
 	"server": {
 		"url": "https://dallalmap.infinityfree.me/index.php",
